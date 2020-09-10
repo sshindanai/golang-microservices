@@ -14,5 +14,4 @@ func StartApp() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 }

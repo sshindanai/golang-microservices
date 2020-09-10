@@ -10,7 +10,7 @@ import (
 // In memory
 var (
 	user = map[int64]*User{
-		123: {Id: 1, FirstName: "Fede", LastName: "Leon", Address: "Bangkok"},
+		123: {Id: 123, FirstName: "Fede", LastName: "Leon", Address: "Bangkok"},
 	}
 )
 
