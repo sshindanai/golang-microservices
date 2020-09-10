@@ -1,17 +1,20 @@
 package main
 
 import (
-	"log"
-	"net/http"
+	"fmt"
+	"sort"
 )
 
 func main() {
-	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello wolrd!"))
-	})
+	// http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+	// 	w.Write([]byte("hello wolrd!"))
+	// })
 
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// err := http.ListenAndServe(":8080", nil)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	els := []int{9, 8, 7, 6, 5, 11}
+	sort.Ints(els)
+	fmt.Println(els)
 }
