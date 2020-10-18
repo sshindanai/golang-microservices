@@ -22,5 +22,6 @@ func CreateRepo(c *gin.Context) {
 		c.JSON(err.Status(), err)
 		return
 	}
+
 	c.JSON(http.StatusCreated, result)
 }
