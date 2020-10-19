@@ -25,11 +25,11 @@ func getAuthorizationHeader(accessToken string) string {
 func CreateRepo(accessToken string, request github.CreateRepoRequest) (*github.CreateRepoResponse, *github.GithubErrorResponse) {
 	headers := http.Header{}
 	headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
+
 	response, err := restClient.Post(urlCreateRepo, request, headers)
 	if err != nil {
-		log.Println(fmt.Sprintf("error when trying to create a new repo in github %s", err.Error()))
 		return nil, &github.GithubErrorResponse{
-			StatusCode: http.StatusInternalServerError,
+			StatusCode: http.StatusUnauthorized,
 			Message:    err.Error(),
 		}
 	}
@@ -37,8 +37,8 @@ func CreateRepo(accessToken string, request github.CreateRepoRequest) (*github.C
 	bytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return nil, &github.GithubErrorResponse{
-			StatusCode: http.StatusInternalServerError,
-			Message:    "Invalid response body"}
+			StatusCode: http.StatusBadRequest,
+			Message:    "Invalid Response Body"}
 	}
 	defer response.Body.Close()
 
@@ -46,7 +46,7 @@ func CreateRepo(accessToken string, request github.CreateRepoRequest) (*github.C
 		var errResponse github.GithubErrorResponse
 		if err := json.Unmarshal(bytes, &errResponse); err != nil {
 			return nil, &github.GithubErrorResponse{
-				StatusCode: http.StatusInternalServerError,
+				StatusCode: http.StatusBadRequest,
 				Message:    "Invalid json response body"}
 		}
 		errResponse.StatusCode = response.StatusCode
@@ -57,7 +57,7 @@ func CreateRepo(accessToken string, request github.CreateRepoRequest) (*github.C
 	if err := json.Unmarshal(bytes, &result); err != nil {
 		log.Println(fmt.Sprintf("error when trying to unmarshal create repo successful response %s", err.Error()))
 		return nil, &github.GithubErrorResponse{
-			StatusCode: http.StatusInternalServerError,
+			StatusCode: http.StatusBadRequest,
 			Message:    "error when trying to unmarshal Github create repo response"}
 	}
 

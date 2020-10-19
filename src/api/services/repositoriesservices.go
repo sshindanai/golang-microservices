@@ -37,7 +37,7 @@ func (s *repoService) CreateRepo(input repositories.CreateRepoRequest) (*reposit
 	}
 
 	// Small bug on GetAccessToken
-	response, err := githib_provider.CreateRepo(config.GetGithubAccessToken(), req)
+	response, err := githib_provider.CreateRepo(config.GithubAccessToken, req)
 	if err != nil {
 		return nil, errors.NewApiError(err.StatusCode, err.Message)
 	}

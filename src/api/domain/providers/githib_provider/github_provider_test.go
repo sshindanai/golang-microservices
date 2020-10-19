@@ -28,7 +28,7 @@ func TestGetAuthorizationHeader(t *testing.T) {
 }
 
 func TestCreateRepoRestClient(t *testing.T) {
-	restClinet.FlushMocks()
+	restClient.FlushMockups()
 	restClient.AddMockup(restClient.Mock{
 		Url:        "https://api.github.com/user/repos",
 		HttpMethod: http.MethodPost,
@@ -38,12 +38,12 @@ func TestCreateRepoRestClient(t *testing.T) {
 	response, err := CreateRepo("", github.CreateRepoRequest{})
 	assert.Nil(t, response)
 	assert.NotNil(t, err)
-	assert.EqualValues(t, http.StatusInternalServerError, err.StatusCode)
+	assert.EqualValues(t, http.StatusUnauthorized, err.StatusCode)
 	assert.EqualValues(t, "Invalid resclient response", err.Message)
 }
 
 func TestCreateRepoInvalidResponseBody(t *testing.T) {
-	restClinet.FlushMocks()
+	restClient.FlushMockups()
 
 	invalidCloser, _ := os.Open("-asf3")
 	restClient.AddMockup(restClient.Mock{
@@ -58,6 +58,6 @@ func TestCreateRepoInvalidResponseBody(t *testing.T) {
 	response, err := CreateRepo("", github.CreateRepoRequest{})
 	assert.Nil(t, response)
 	assert.NotNil(t, err)
-	assert.EqualValues(t, http.StatusCreated, err.StatusCode)
+	assert.EqualValues(t, http.StatusBadRequest, err.StatusCode)
 	assert.EqualValues(t, "Invalid Response Body", err.Message)
 }
