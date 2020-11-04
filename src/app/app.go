@@ -1,9 +1,8 @@
 package app
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
+	"github.com/sshindanai/golang-microservices/src/log/optionb"
 )
 
 var (
@@ -15,8 +14,11 @@ func init() {
 }
 
 func StartApp() {
+	optionb.Info("about to map the urls", optionb.Field("step", "1"), optionb.Field("status", "pending"))
 	mapUrls()
+	optionb.Info("url successfully", optionb.Field("step", "2"), optionb.Field("status", "success"))
+
 	if err := router.Run(":8080"); err != nil {
-		log.Fatal(err)
+		optionb.Error("router is down", err, optionb.Field("status", "failed"))
 	}
 }

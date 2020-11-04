@@ -17,7 +17,9 @@ func CreateRepo(c *gin.Context) {
 		return
 	}
 
-	result, err := services.RepositoryService.CreateRepo(req)
+	client := c.GetHeader("X-Client-Id")
+
+	result, err := services.RepositoryService.CreateRepo(client, req)
 	if err != nil {
 		c.JSON(err.Status(), err)
 		return
@@ -33,8 +35,9 @@ func CreateRepos(c *gin.Context) {
 		c.JSON(apiErr.Status(), apiErr)
 		return
 	}
+	client := c.GetHeader("X-Client-Id")
 
-	result, err := services.RepositoryService.CreateRepos(req)
+	result, err := services.RepositoryService.CreateRepos(client, req)
 	if err != nil {
 		c.JSON(err.Status(), err)
 		return

@@ -13,3 +13,7 @@ type GithubError struct {
 	Field    string `json:"field"`
 	Message  string `json:"message"`
 }
+
+func (r GithubErrorResponse) Error() string {
+	return r.Message
+}
