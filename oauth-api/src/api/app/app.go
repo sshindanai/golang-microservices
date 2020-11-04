@@ -1,8 +1,6 @@
 package app
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,10 +13,8 @@ func init() {
 }
 
 func StartApp() {
-	mapUrls()
-
-	err := router.Run(":8080")
-	if err != nil {
-		log.Fatal(err)
+	mapURLs()
+	if err := router.Run(":8080"); err != nil {
+		panic(err)
 	}
 }
