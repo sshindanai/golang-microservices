@@ -65,3 +65,10 @@ func NewBadRequestError(msg string) ApiError {
 		AMessage: msg,
 	}
 }
+
+func NewNotFoundError(msg string) ApiError {
+	return &apiError{
+		AStatus:  http.StatusNotFound,
+		AMessage: msg,
+	}
+}

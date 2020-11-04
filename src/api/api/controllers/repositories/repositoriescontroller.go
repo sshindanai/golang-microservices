@@ -17,11 +17,31 @@ func CreateRepo(c *gin.Context) {
 		return
 	}
 
-	result, err := services.RepositoryService.CreateRepo(req)
+	client := c.GetHeader("X-Client-Id")
+
+	result, err := services.RepositoryService.CreateRepo(client, req)
 	if err != nil {
 		c.JSON(err.Status(), err)
 		return
 	}
 
 	c.JSON(http.StatusCreated, result)
+}
+
+func CreateRepos(c *gin.Context) {
+	var req []repositories.CreateRepoRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		apiErr := errors.NewBadRequestError("Invalid Json body")
+		c.JSON(apiErr.Status(), apiErr)
+		return
+	}
+	client := c.GetHeader("X-Client-Id")
+
+	result, err := services.RepositoryService.CreateRepos(client, req)
+	if err != nil {
+		c.JSON(err.Status(), err)
+		return
+	}
+
+	c.JSON(result.StatusCode, result)
 }
